@@ -10,8 +10,13 @@ using System.Reflection.PortableExecutable;
 Raylib.InitWindow(1000, 1000, "amongus");
 Raylib.SetTargetFPS(60);
 
+bool BetterMovement = false;
+bool BetterRadar = false;
+bool FunnyRainbows = false;
+
 int characterx = 146;
 int charactery = 136;
+int points =0;
 int Score=0;
 int Scorecubex = Random.Shared.Next(100,900);
 int Scorecubey = Random.Shared.Next(100,900);
@@ -60,7 +65,7 @@ while (!Raylib.WindowShouldClose())
       Raylib.ClearBackground(Color.DARKGRAY);
       Radar();
       Raylib.DrawLine((int)Linecharacter.X, (int)Linecharacter.Y, (int)linescore.X, (int)linescore.Y,Color.DARKGRAY);
-      Raylib.DrawRectangle(100,100,800,800,Color.BLUE);
+      //Raylib.DrawRectangle(100,100,800,800,Color.BLUE);
       Raylib.DrawText($"{Score}",500,10,35,Color.RAYWHITE);
       movement();
       Raylib.DrawTextureRec(Radarimage,RadarRect,RadarVector,radarColor);
@@ -137,12 +142,34 @@ void Starting(){
       {
          Scene = "level1";
       }
-      Score=0;
+      points = Score;
      Raylib.BeginDrawing();
       Raylib.DrawText("Welcome to the store", 130, 250, 35, Color.ORANGE);
       Raylib.DrawText("Press space to return to the game", 150, 650, 18, Color.GREEN);
-      Raylib.ClearBackground(Color.GRAY);
+      Raylib.DrawText($"You have {points} points", 550, 260, 20, Color.PURPLE);
+      // the three upgrades Better radar,Faster walking,Actually functioning collision
+      Raylib.ClearBackground(Color.BLACK);
       Raylib.EndDrawing();
+      if  (Raylib.IsKeyPressed(KeyboardKey.KEY_A) && points >= 10){
+         Score -=10;
+         points -=10;
+         BetterMovement=true;
+      }
+      if  (Raylib.IsKeyPressed(KeyboardKey.KEY_D) && points >= 30){
+         Score -=30;
+         points -=30;
+         BetterMovement=true;
+      }
+      if  (Raylib.IsKeyPressed(KeyboardKey.KEY_G) && points >= 50){
+         Score -=50;
+         points -=50;
+         BetterMovement=true;
+      }
+
+      for (int i = 1; i < 4; i++)
+      {
+         Raylib.DrawRectangle(200*i-50,370,150,150,Color.WHITE); 
+      }
     }
    if (Scene =="win"){
       if(Raylib.IsKeyDown(KeyboardKey.KEY_P))
@@ -155,6 +182,9 @@ void Starting(){
       Raylib.DrawText("Press P to play the exact same game again", 300, 650, 18, Color.BLUE);
       Raylib.ClearBackground(Color.GRAY);
       Raylib.EndDrawing();
+      BetterMovement = false;
+      BetterRadar =false;
+      FunnyRainbows = false;
     }
 }
 
@@ -183,46 +213,70 @@ void movement()
 
    if (BubterraCube.x + Characterimage.width >= 1000)
       {
-         BubterraCube.x = Characterect.x;
+         characterx = (int)(1000-BubterraCube.width);
       }
 
       if (BubterraCube.y + Characterimage.height >= 1000)
       {
-         BubterraCube.y = 1000-Characterect.y;
+         charactery = (int)(1000-BubterraCube.height);
       }
       if (BubterraCube.x <= 0)
       {
-         BubterraCube.x = 0;
+         characterx = 0;
       }
 
       if (BubterraCube.y <= 0)
       {
-         BubterraCube.y = 0;
+         charactery = 0;
       }
 
-      if (Raylib.IsKeyDown(KeyboardKey.KEY_D))
+      if (Raylib.IsKeyDown(KeyboardKey.KEY_D)  && BetterMovement==false)
       {
          Subterra.X+=5;
          SubterraCube.x+=5;
          characterx+=5;
       }
-      if (Raylib.IsKeyDown(KeyboardKey.KEY_A))
+      if (Raylib.IsKeyDown(KeyboardKey.KEY_A)  && BetterMovement==false)
       {
          Subterra.X-=5;
          SubterraCube.x-=5;
          characterx-=5;
       }
-      if (Raylib.IsKeyDown(KeyboardKey.KEY_S))
+      if (Raylib.IsKeyDown(KeyboardKey.KEY_S)  && BetterMovement==false)
       {
          Subterra.Y+=5;
          SubterraCube.y+=5;         
          charactery+=5;
       }
-      if (Raylib.IsKeyDown(KeyboardKey.KEY_W))
+      if (Raylib.IsKeyDown(KeyboardKey.KEY_W)  && BetterMovement==false)
       {
          Subterra.Y-=5;
          SubterraCube.y-=5;
          charactery-=5;
+      }
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_D)  && BetterMovement)
+      {
+         Subterra.X+=10;
+         SubterraCube.x+=10;
+         characterx+=10;
+      }
+      if (Raylib.IsKeyDown(KeyboardKey.KEY_A)  && BetterMovement)
+      {
+         Subterra.X-=10;
+         SubterraCube.x-=10;
+         characterx-=10;
+      }
+      if (Raylib.IsKeyDown(KeyboardKey.KEY_S)  && BetterMovement)
+      {
+         Subterra.Y+=10;
+         SubterraCube.y+=10;         
+         charactery+=10;
+      }
+      if (Raylib.IsKeyDown(KeyboardKey.KEY_W) && BetterMovement)
+      {
+         Subterra.Y-=10;
+         SubterraCube.y-=10;
+         charactery-=10;
       }
 }
 void Radar(){
