@@ -16,7 +16,7 @@ bool FunnyRainbows = false;
 
 int characterx = 146;
 int charactery = 136;
-int points =0;
+int Sigma =0;
 int Score=0;
 int Scorecubex = Random.Shared.Next(100,900);
 int Scorecubey = Random.Shared.Next(100,900);
@@ -142,27 +142,27 @@ void Starting(){
       {
          Scene = "level1";
       }
-      points = Score;
+      Sigma = Score;
      Raylib.BeginDrawing();
       Raylib.DrawText("Welcome to the store", 130, 250, 35, Color.ORANGE);
       Raylib.DrawText("Press space to return to the game", 150, 650, 18, Color.GREEN);
-      Raylib.DrawText($"You have {points} points", 550, 260, 20, Color.PURPLE);
+      Raylib.DrawText($"You have {Sigma} points", 550, 260, 20, Color.PURPLE);
       // the three upgrades Better radar,Faster walking,Actually functioning collision
       Raylib.ClearBackground(Color.BLACK);
       Raylib.EndDrawing();
-      if  (Raylib.IsKeyPressed(KeyboardKey.KEY_A) && points >= 10){
+      if  (Raylib.IsKeyPressed(KeyboardKey.KEY_A) && Sigma >= 10){
          Score -=10;
-         points -=10;
+         Sigma -=10;
          BetterMovement=true;
       }
-      if  (Raylib.IsKeyPressed(KeyboardKey.KEY_D) && points >= 30){
+      if  (Raylib.IsKeyPressed(KeyboardKey.KEY_D) && Sigma >= 30){
          Score -=30;
-         points -=30;
+         Sigma -=30;
          BetterMovement=true;
       }
-      if  (Raylib.IsKeyPressed(KeyboardKey.KEY_G) && points >= 50){
+      if  (Raylib.IsKeyPressed(KeyboardKey.KEY_G) && Sigma >= 50){
          Score -=50;
-         points -=50;
+         Sigma -=50;
          BetterMovement=true;
       }
 
